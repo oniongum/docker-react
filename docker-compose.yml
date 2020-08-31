@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    stdin_open: true
+    build:
+      #specify all the folders and files for build image
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+      #above is same as below. Get the command short
+      #docker run -it -p 3000:3000 -v /app/node_modules -v $(pwd):/app a105f5416dc1
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
